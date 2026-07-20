@@ -1,5 +1,6 @@
 /* ==========================================================================
    Йосип Струцюк — сайт письменника
+   CSS-змінні: світла/темна тема перемикається атрибутом [data-theme] на <html>
    ========================================================================== */
 
 @font-face {
@@ -198,7 +199,8 @@ img { max-width: 100%; display: block; }
   grid-template-columns: var(--sidebar-width) 1fr;
   max-width: 1400px;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 100vh; /* запасний варіант для старих браузерів */
+  min-height: 100dvh; /* враховує приховування/появу панелі браузера на мобільних */
 }
 
 /* ---------- Sidebar / nav ---------- */
@@ -209,7 +211,8 @@ img { max-width: 100%; display: block; }
   position: sticky;
   top: 0;
   align-self: start;
-  height: 100vh;
+  height: 100vh; /* запасний варіант для старих браузерів */
+  height: 100dvh; /* враховує приховування/появу панелі браузера на мобільних */
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
@@ -262,10 +265,18 @@ img { max-width: 100%; display: block; }
 .menu summary::marker { content: ""; display: none; }
 .menu summary::-webkit-details-marker { display: none; }
 
-/* Відступ визначає лише сам <summary>, не вкладене посилання */
+/* Відступ визначає лише сам <summary>, не вкладене посилання.
+   min-height/padding теж обнуляємо явно — інакше на тач-екранах
+   (@media pointer: coarse нижче) вкладене посилання, як нащадок
+   .menu a, саме собі ще раз отримує min-height: 44px і "додає"
+   висоту поверх уже заданої висоти самого <summary>. Через це
+   пункти з підменю (Творчість, Пісні) ставали вищими за звичайні
+   пункти меню, а маркер згорнути/розгорнути виглядав зсунутим —
+   і саме це створювало нерівні відступи між пунктами меню. */
 .menu summary > a {
   display: inline;
   padding: 0;
+  min-height: auto;
   border-radius: 0;
 }
 
@@ -938,7 +949,8 @@ footer.site-footer a:hover { color: var(--pine); }
     transform: translateX(-100%);
     transition: transform 0.2s ease;
     z-index: 39;
-    height: 100vh;
+    height: 100vh; /* запасний варіант для старих браузерів */
+    height: 100dvh; /* враховує приховування/появу панелі браузера на мобільних */
   }
   body.nav-open .site-nav { transform: translateX(0); }
   body.nav-open::after {
